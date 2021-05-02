@@ -64,17 +64,18 @@ def camera():
 
 	#store already present students
 	slot = int(modules.get_slot())
+	today_date = str(datetime.today().date())
 	#tt_slot = TimeTable.get_id()
 	temp_id = current_user.get_email()
 	faculty_id = faculty.query.filter_by(email = temp_id).first().id
 	print(slot)
 	print(faculty_id)
 	try :
-		timetable_details = TimeTable.query.filter_by(slot = slot, faculty_id = faculty_id).first()
+		timetable_details = TimeTable.query.filter_by(slot = slot, faculty_id = faculty_id, date = today_date).first()
 		timetable_id = timetable_details.id
 
 	except:
-		timetable_details = TimeTable.query.filter_by(faculty_id = faculty_id).first()
+		timetable_details = TimeTable.query.filter_by(faculty_id = faculty_id, date = today_date).first()
 		timetable_id = timetable_details.id
 
 	print(timetable_id)
@@ -184,7 +185,8 @@ def camera():
 					slot = str(modules.get_slot())
 					#get student name
 					#print(class_name)
-					s1 = Student.query.filter_by(name = class_name).first()
+					t1 = TimeTable.query.filter_by(slot = slot, date = today_date, faculty_id = faculty_id).first()
+					s1 = Student.query.filter_by(name = class_name, sem = t1.sem).first()
 					print(s1)
 					s1_enroll = s1.enrollment
 					print(s1_enroll)
@@ -197,13 +199,12 @@ def camera():
 					print(tt_sem)
 					print(tt_batch)'''
 					#get TimeTable id
-					t1 = TimeTable.query.filter_by(slot = slot).first()
 					#A = Attendence.query.filter_by(student_id = s1.id,dtimetable_id=t1.id).first()
 					#add in Attendence Table
 					print(slot)
 					print(s1,t1)
 					if s1 and t1:
-						date = str(datetime.now().date())
+						date = str(datetime.today().date())
 						time = str(datetime.now().time())
 						A1 = Attendence(date = date, time = time, student_id=s1.id, timetable_id=t1.id)
 						#print(s1,t1,A1)

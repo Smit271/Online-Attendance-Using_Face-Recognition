@@ -55,18 +55,21 @@
 
         								<!--<li class="mega-menu"><a href="dashboard/admin-dashboard.html">Project</a></li>  -->
                                             {% if current_user.is_authenticated %}
-                                            <li><a href="></a></li>
-                                            <li  class="mega-menu"><a href="/add-lecture">Add Lecture</a>
+                                            <li  class="mega-menu">
+                                                <a href="/add-lecture">Add Lecture</a>
                                             </li>
 
                                              <li class="dropdown">
                                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Attendance
                                                  <span class="caret"></span></a>
                                                 <ul class="dropdown-menu">
-                                                    <li><a href="/faculty-attendance">Today</a></li>
-                                            <li><a href="/faculty-total-attendance">Total</a>
-                                            </li>
-                                            </ul>
+                                                    <li>
+                                                        <a href="/faculty-attendance">Today</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/faculty-total-attendance">Total</a>
+                                                    </li>
+                                                </ul>
                                             </li>
 
                                             <li class="dropdown">
@@ -86,12 +89,11 @@
 <!--        									<li  class="mega-menu"><a href="/add_lecture">Add lecture</a>-->
 <!--                                            </li>-->
                                             <li  class="mega-menu"><a href="/faculty-contact-us">Contact Us</a>
-                                            </li>
+                                                </li>
                                             {% if current_user.is_authenticated %}
-
-
-
-                                            <li  class="mega-menu" ><span style="color: #40aaa0;" class=".font-italic">{{ current_user.username }}</span></li>
+                                                <li  class="mega-menu" >
+                                                    <span style="color: #40aaa0;" class=".font-italic">{{ current_user.username }}</span>
+                                                </li>
                                             </li>
                                              {% endif %}
 
@@ -125,11 +127,6 @@
 
                                         </li>
                                         <li><a href="about.html">About Us</a></li>
-                                        <li><a href="blog-content.html">Blog</a>
-
-                                        </li>
-                                        <li><a href="volunteer.html">Volunteers</a>
-                                            <li><a href="events-1.html">Organization</a></li>
 
                                         </li>
                                         <li><a href="contact-us.html">Contact Us</a>
@@ -154,15 +151,6 @@
         {% endif %}
 {% endwith %}
 {% block body %}    {% endblock %}
-
-
-
-
-
-
-
-
-
 
     <footer>
             <div class="footer-top pt-50 pb-50">

@@ -23,7 +23,8 @@ import pandas as pd
 #face images folder
 app.config['UPLOAD_FOLDER'] = "./face_recognition/8_5-Dataset/train"
 #app.config['PDF_LOC'] = "/home/smit/Smit/Projects/06_Face_Recognition/Attendance-using-face-recognition/Attendance_pdf"
-app.config['PDF_LOC'] = os.path.join(os.getcwd(), 'Attendance_pdf')
+app.config['PDF_LOC'] = os.path.join(os.getcwd(), 'Attendance_pdf') # -->  To Store PDFs
+app.config['XL_LOC'] = os.path.join(os.getcwd(), 'Attendance_Sheets')# --> To Store Excel sheets
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png', 'heic', 'jpeg', 'gif',''}
 
 def allowed_file(file):
@@ -157,10 +158,11 @@ def student_total_attendance():
     name = student.name
     sem = student.sem
     batch = student.sem + "-" + student.div
-    user_data = {"name": name, "batch": batch,"start_term":start_term,"total":total_days}
+    user_data = {"name": name, "batch": batch,"start_term":start_term}
 
     #getting all lectures are which are attended
     attended_lecs = Attendence.query.filter_by(student_id = student_id).all()
+    print(attended_lecs)
 
     #count total attendance of particular subject
     attended_lecs_ids = {}
@@ -174,14 +176,15 @@ def student_total_attendance():
     row = []
 
     #TimeTable rows
-    lecs = TimeTable.query.filter_by(sem = sem).all()
+    lecs = TimeTable.query.filter_by(sem = sem, batch = student.div).all()
+
 
     for lec in lecs:
-        temp = {"subject":lec.subject,"slot":lec.slot,"present":0}
+        temp = {"subject":lec.subject,"slot":lec.slot,"present":0, "date" : lec.date}
 
         #note total attendance
         if lec.id in attended_lecs_ids:
-            temp['present'] = attended_lecs_ids[lec.id]
+            temp['present'] = 1
         row.append(temp)
 
     print(user_data)
@@ -210,6 +213,7 @@ def student_today_attendance():
     student = Student.query.filter_by(id = student_id).first()
     name = student.name
     sem = student.sem
+    div = student.div
     batch = str(sem) + "-" + str(student.div)
     user_data = {"name": name, "batch": batch}
 
@@ -220,7 +224,7 @@ def student_today_attendance():
     row = []
 
     #TimeTable rows
-    lecs = TimeTable.query.filter_by(sem = sem).all()
+    lecs = TimeTable.query.filter_by(sem = sem, batch = div, date = today_date).all()
 
     for lec in lecs:
         temp = {"subject":lec.subject, "slot":lec.slot,"time":"-","status":"absent"}
@@ -277,16 +281,20 @@ def faculty_attendance():
         detail = {"subject":sub,"date":today_date}
         data = []
         for each in present_students:
-            s = Student.query.filter_by(id = each.student_id).first()
-            t = TimeTable.query.filter_by(id = each.timetable_id).first()
-            temp = {"time":each.time,
-            "name" : s.name,
-            "enrollment" : s.enrollment,
-            "subject" : t.subject,
-            "batch" : t.batch,
-            "slot" : t.slot
-            }
-            data.append(temp)
+            s = Student.query.filter_by(id = each.student_id, sem = sem, div = div).first()
+            print(s)
+            if s:
+                t = TimeTable.query.filter_by(id = each.timetable_id).first()
+                temp = {"time":each.time,
+                "name" : s.name,
+                "enrollment" : s.enrollment,
+                "subject" : t.subject,
+                "batch" : t.batch,
+                "slot" : t.slot
+                }
+                data.append(temp)
+            else:
+                continue
             #student_user_id = user.query.filter_by(email=student.email).first().userid
             #present_count = len(Attendence.query.filter_by(timetable_id=tt_id,student_id=student_user_id).all())
             #print(student_user_id,present_count)
@@ -339,31 +347,41 @@ def faculty_total_attendance():
             #get subject of current faculty
             data = []
             subjects = []
+            print(row)
             for i in range(len(row)):
                 subjects.append(row[i].subject)
 
                 #get time table id of that subject
                 tt_id = row[i].id
-                lecture_detail = {"subject":subjects,"total":total_days,"start_term":start_term}
+                # --> Getting searched sem and div students list
                 student_rows = Student.query.filter_by(div = div, sem = sem).all()
+                #print(student_rows)
 
                 if not student_rows:
                     flash(f"You hadn't taken Any Attendance for Students of {sem} - {div} for Subject {sub}","danger")
                 
-                for student in student_rows:
-                    temp = {"name":student.name,"enrollment":student.enrollment,
-                            "batch": student.div,
-                            "slot" : row[i].slot,
-                            "sem" : student.sem,
-                            "sub" : row[i].subject}
-                    student_user_id = student.id
-                    #student_user_id = user.query.filter_by(email=student.email).first().userid
-                    present_count = len(Attendence.query.filter_by(timetable_id=tt_id,student_id=student_user_id).all())
-                    #print(student_user_id,present_count)
-                    temp['present'] = present_count
-                    data.append(temp)
+                temp = {
+                        "sem"  : sem,
+                        "batch": div,
+                        "slot" : row[i].slot,
+                        "date" : row[i].date
+                        }
+                #student_user_id = student.id
+                #student_user_id = user.query.filter_by(email=student.email).first().userid
+                total_students = len(student_rows)
+                count = 0
+                # --> Checking if searched sem and div student presented in that lec or not
+                for s in student_rows:
+                    presented = Attendence.query.filter_by(timetable_id=tt_id, student_id = s.id).all()
+                    if presented:
+                        count += 1
+                present_students = min(count, total_students)
+                #print(student_user_id,present_count)
+                temp['present'] = present_students
+                lecture_detail = {"subject":subjects,"start_term":start_term, 'total' : total_students}
+                data.append(temp)
                 #print(data0)
-                return render_template("Admin/total_attendance.html", data = data, lecture_detail = lecture_detail, form = form)
+            return render_template("Admin/total_attendance.html", data = data, lecture_detail = lecture_detail, form = form)
 
         # If Faculty wants to create pdf by class- division - subject student's attendance
         elif request.form.get('pdf') == 'get pdf':
@@ -455,7 +473,7 @@ def faculty_total_attendance():
 
             # Making dates as First row
             final_list.append(all_date)
-            print(enrs)
+            #print(enrs)
 
 
             for i in range(len(enrs)):
@@ -470,15 +488,15 @@ def faculty_total_attendance():
                                                     batch = div,
                                                     subject = sub,
                                                     date = all_date[j]).first()
-                    print(tt_id)
+                    #print(tt_id)
 
                     if tt_id:
                         s_id = Student.query.filter_by(enrollment = enrs[i]).first().id
-                        print(s_id)
-                        print(tt_id.id)
+                        #print(s_id)
+                        #print(tt_id.id)
 
                         atd_details = Attendence.query.filter_by(student_id = s_id, timetable_id = tt_id.id, date = all_date[j]).first()
-                        print(atd_details)
+                        #print(atd_details)
 
                          # -- > Making Enrollment as First Column of every row
                         if atd_details:
@@ -489,8 +507,8 @@ def faculty_total_attendance():
                         i_atd.append(0)
 
                 final_list.append(i_atd)
-            print(len(final_list))
-            print(final_list)
+            #print(len(final_list))
+            #print(final_list)
 
             # Making Excel File name
             filename = f"{today_date}_{sub}_{sem}_{div}.xlsx"
@@ -499,16 +517,16 @@ def faculty_total_attendance():
             #print(files)
             
             
-            file_name = app.config['PDF_LOC'] + f"/{filename}"
+            file_name = app.config['XL_LOC'] + f"/{filename}"
             modules.make_excel(final_list, file_name)
-            print(file_name)
+            #print(file_name)
             try:
-                return send_from_directory(app.config['PDF_LOC'], filename=filename, as_attachment=True)
+                return send_from_directory(app.config['XL_LOC'], filename=filename, as_attachment=True)
             except FileNotFoundError:
                 abort(404)
             response = make_response(file_name)
             response.headers['Content-Disposition'] = f"attachment; filename={filename}.pdf"
-            response.mimetype = 'application/pdf'
+            response.mimetype = 'application/excel'
             return response
             #return render_template("Admin/total_attendance.html", form = form)
 

@@ -121,7 +121,7 @@ def load_caffe_model():
 def get_slot(time=datetime.now()):
     # '2021-04-03 17:03:37.159053'
     start = time.replace(hour=10, minute=20, second=0, microsecond=0)
-    slot1 = time.replace(hour=10, minute=40, second=0, microsecond=0)
+    slot1 = time.replace(hour=11, minute=00, second=0, microsecond=0)
     slot2 = time.replace(hour=11, minute=40, second=0, microsecond=0)
     slot3 = time.replace(hour=13, minute=10, second=0, microsecond=0)
     slot4 = time.replace(hour=15, minute=25, second=0, microsecond=0)
