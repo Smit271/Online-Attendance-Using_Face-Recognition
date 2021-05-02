@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+{% block body %}
+        <!-- Start page title -->
+		<section class="page-title-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="page-title text-center">
+                            <h1>Today's Attendance</h1>
+                        </div>
+                        <div class="breadcrumbs-area  text-center">
+                            <ol class="breadcrumbs">
+                                <li><a href="index.html">Home</a></li>
+                                <li class="active">Attendance</li>
+                            </ol>
+                        </div>
+                        <div class="back-home">
+                            <a href="index.html"><i class="fa fa-arrow-left" aria-hidden="true"></i> BACK TO HOME</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End page title -->
+        <!-- Start Donate page area -->
+        <section class="donate-page-area pt-90 pb-80">
+            <div class="container">
+
+                 <div class="row">
+                        <!-- Start section title -->
+                        <div class="col-sm-12">
+                            <div class="section-title text-center">
+                                <h2>{{ user_data["name"] }} : <span> {{ user_data["batch"] }}</span></h2>
+                                <img src= "{{ url_for('static', filename = 'img/title-bottom.png') }}" alt="">
+                                <p>Term Start Date:{{ user_data['start_term'] }}</p>
+                            </div>
+                        </div>
+                        <!-- End section title -->
+                    </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 ml-auto mr-auto">
+                        <div class="donate-content">
+                            <div class="donate-form-container">
+                                <div class="donation-form quick-donation-section donate-page">
+                                    <table class="table table-hover">
+									  <thead>
+
+										<tr>
+										  <th scope="col">Sr. No</th>
+										  <th scope="col">Lecture Slot</th>
+										  <th scope="col">Subject</th>
+										  <th scope="col">Attendance</th>
+<!--										  <th scope="col">Time</th>-->
+<!--										  <th scope="col">Lecture Slot</th>-->
+<!--										  <th scope="col">Timestamp</th>-->
+										</tr>
+									  </thead>
+									  <tbody>
+                                      {% for each in row %}
+										<tr>
+										  <th scope="row">{{ loop.index }}</th>
+										  <td>{{ each["slot"] }}</td>
+										  <td>{{ each["subject"] }}</td>
+										  <td>{{ each["present"] }}/{{ user_data["total"] }}</td>
+<!--										  <td>{{ each["time"] }}</td>-->
+<!--										  <td>1</td>-->
+<!--										  <td>123123123</td>-->
+										</tr>
+                                      {% endfor %}
+
+									  </tbody>
+									</table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End Donate page area -->
+{% endblock body %}

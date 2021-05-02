@@ -1,0 +1,279 @@
+﻿<!doctype html>
+
+<html class="no-js" lang="en">
+
+<!-- head part-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Smart Attendance</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon
+    ============================================ -->
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename = 'img/logo all about organization1.png') }}">
+
+    <!-- master CSS
+    ============================================ -->
+    <link rel="stylesheet" href="{{url_for('static', filename = 'master.css') }}">
+
+    <!-- Color Css Files Start -->
+    <link rel="alternate stylesheet" type="text/css" href="{{url_for('static', filename = 'switcher/color-one.css') }}" title="color-one" media="screen" />
+    <link rel="alternate stylesheet" type="text/css" href="{{url_for('static', filename = 'switcher/pattren1.css') }}" title="pattren1" media="screen" />
+    <link rel="alternate stylesheet" type="text/css" href="{{url_for('static', filename = 'switcher/background1.css') }}" title="background1" media="screen" />
+    <!-- Color Css Files End -->
+
+</head>
+<body>
+
+
+    <!-- Start main area -->
+    <div class="main-area">
+        <!-- Start header -->
+      <header>
+
+        		<!-- End header top -->
+        		<!-- Start main menu area -->
+        		<div class="main-menu-area" id="sticker">
+        			<div class="container">
+        				<div class="row">
+        					<div class="col-md-3 col-xs-12">
+        						<div class="logo ptb-32">
+        							<a href="/home">
+        								<img src="{{ url_for('static',filename='img/logo.jpg') }}" width="160px">
+        							</a>
+        						</div>
+        					</div>
+        					<div class="col-md-9 col-xs-12">
+        						<div class="main-menu">
+        							<nav>
+        								<ul>
+        									<li><a href="/home">Home</a>
+
+                                            </li>
+
+        								<!--<li class="mega-menu"><a href="dashboard/admin-dashboard.html">Project</a></li>  -->
+                                            {% if current_user.is_authenticated %}
+                                              <li class="dropdown">
+                                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Attendance
+                                                 <span class="caret"></span></a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="/student-today-attendance">Today</a></li>
+                                            <li><a href="/student-total-attendance">Total</a>
+                                            </li>
+                                            </ul>
+                                            </li>
+                                            <li  class="mega-menu"><a href="/add_photos">Add Photos</a>
+                                            </li>
+                                            {% endif %}
+
+
+
+<!--        									<li  class="mega-menu"><a href="/add_lecture">Add lecture</a>-->
+<!--                                            </li>-->
+                                            <li  class="mega-menu"><a href="/contact-us">Contact Us</a>
+                                            </li>
+                                            {% if current_user.is_authenticated %}
+                                            <li></li>
+                                             <li></li>
+
+                                            <li  class="mega-menu" ><span style="color: #40aaa0;" class=".font-italic">{{ current_user.username }}</span></li>
+                                            </li>
+                                             {% endif %}
+
+
+
+<div class="donate-button ptb-32">
+                                    {% if current_user.is_authenticated %}
+                                        <a class="waves-effect waves-light" href="/logout-user">Logout</a>
+                                    {% else %}
+        							    <a class="waves-effect waves-light" href="/login-user">Login</a>
+                                    {% endif %}
+        						</div>
+
+        								</ul>
+        							</nav>
+        						</div>
+
+        					</div>
+        				</div>
+        			</div>
+        		</div>
+        		<!-- End main menu area -->
+                <!-- Start mobile menu -->
+<!--                <div class="mobile-menu-area">-->
+<!--                    <div class="container">-->
+<!--                        <div class="row">-->
+<!--                            <div class="mobile-menu">-->
+<!--                                <nav id="dropdown">-->
+<!--                                    <ul class="nav">-->
+<!--                                        <li><a class="home" href="/home">Home</a>-->
+
+<!--                                        </li>-->
+<!--                                        <li><a href="about.html">About Us</a></li>-->
+<!--                                        <li><a href="blog-content.html">Blog</a>-->
+
+<!--                                        </li>-->
+<!--                                        <li><a href="volunteer.html">Volunteers</a>-->
+<!--                                            <li><a href="events-1.html">Organization</a></li>-->
+
+<!--                                        </li>-->
+<!--                                        <li><a href="contact-us.html">Contact Us</a>-->
+
+<!--                                        </li>-->
+<!--                                    </ul>-->
+<!--                                </nav>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+                <!-- End mobile menu -->
+        	</header>
+        <!-- End header -->
+{% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+        {% for category,message in messages %}
+        <div class="alert alert-{{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+{% endwith %}
+{% block body %}    {% endblock %}
+
+
+
+
+
+
+
+
+
+
+    <footer>
+            <div class="footer-top pt-50 pb-50">
+                <div class="footer-widget-area">
+                    <div class="container">
+                        <div class="row">
+                            <!-- Start footer widget -->
+                            <div class="col-md-4">
+                                <div class="footer-widget widget-one">
+                                    <div class="footer-widget-title">
+                                        <h3>ABOUT US</h3>
+                                    </div>
+                                    <div class="widget-about-content">
+                                        <p>We are student of Vishwakarma Government Engineering college and we have build this software through which we can mark attendance of students.</p>
+                                    </div>
+                                    <div class="widget-contact-content">
+                                        <h3>CONTACT US</h3>
+                                        <a href="tel:+0012345678">Phone :  +(00) 1234-5678</a>
+                                        <a href="mailto:info@granttheme.com">Email :  ask@facerecognition.com</a>
+                                        <p>Address : D-block VGEC,Chandkheda.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="footer-widget widget-two">
+                                    <div class="footer-widget-title">
+                                        <h3>IMPORTANT LINKS</h3>
+                                    </div>
+                                    <nav>
+                                        <ul>
+                                            <li><a href="https://www.gtu.ac.in/">GTU website</a></li>
+                                            <li><a href="https://www.vgecg.ac.in/">VGEC website</a></li>
+                                            <li><a href="user-registration.html">Register yourself</a></li>
+                                            <li><a href="login-user.html">Login</a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+
+							<div class="map col-md-4">
+                                <div class="footer-widget widget-two">
+                                    <div class="footer-widget-title">
+                                        <h3>VGEC MAP</h3>
+                                    </div>
+								    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3669.7310192080686!2d72.59273001480244!3d23.106940384910423!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e83c959d4de6f%3A0x748d0828c02cf9fa!2sVishwakarma%20Government%20Engineering%20College!5e0!3m2!1sen!2sin!4v1618924304114!5m2!1sen!2sin" width="350" height="250" style="border:10px;" allowfullscreen="" loading="lazy"></iframe>
+                                </div>
+                            </div>
+            <!-- End footer widget -->
+            <!-- Start footer widget -->
+            <!-- End footer -->
+        </div>
+                    </div>
+                </div>
+            </div>
+    </footer>
+    <!-- End main area -->
+    <!-- modernizr-3.10.0.min js
+    ============================================ -->
+    <script src="{{url_for('static', filename = 'js/vendor/modernizr-3.10.0.min.js') }}"></script>
+
+    <!-- jquery-3.5.0.min js
+    ============================================ -->
+    <script src="{{url_for('static', filename = 'js/vendor/jquery-3.5.0.min.js') }}"></script>
+
+    <!-- jquery-migrate-3.1.0.min js
+    ============================================ -->
+    <script src="{{url_for('static', filename = 'js/vendor/jquery-migrate-3.1.0.min.js') }}"></script>
+
+    <!-- bootstrap js
+    ============================================ -->
+    <script src="{{url_for('static', filename = 'js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- owl.carousel.min js
+    ============================================ -->
+    <script src="{{url_for('static', filename = 'js/owl.carousel.min.js') }}"></script>
+
+    <!-- jquery.nivo.slider.pack js
+    ============================================ -->
+    <script src="{{url_for('static', filename = 'js/jquery.nivo.slider.pack.js') }}"></script>
+
+    <!-- jquery.mixitup.min js
+    ============================================ -->
+    <script src="{{url_for('static', filename = 'js/jquery.mixitup.min.js') }}"></script>
+
+    <!-- jquery.magnific-popup.min js
+    ============================================ -->
+    <script src="{{url_for('static', filename = 'js/jquery.magnific-popup.min.js') }}"></script>
+
+    <!-- jquery.meanmenu js
+    ============================================ -->
+    <script src="{{url_for('static', filename = 'js/jquery.meanmenu.js') }}"></script>
+
+    <!-- jquery.syotimer.min js
+    ============================================ -->
+    <script src="{{url_for('static', filename = 'js/jquery.syotimer.min.js') }}"></script>
+
+    <!-- wow js
+    ============================================ -->
+    <script src="{{url_for('static', filename = 'js/wow.js') }}"></script>
+
+    <!-- jquery.scrollUp.min js
+    ============================================ -->
+    <script src="{{url_for('static', filename = 'js/jquery.scrollUp.min.js') }}"></script>
+
+    <!-- jquery.ajaxchimp.min js
+    ============================================ -->
+    <script src="{{url_for('static', filename = 'js/jquery.ajaxchimp.min.js') }}"></script>
+
+    <!-- plugins js
+    ============================================ -->
+    <script src="{{url_for('static', filename = 'js/plugins.js') }}"></script>
+
+    <script>
+        new WOW().init();
+    </script>
+
+    <!-- styleswitch js
+    ============================================ -->
+    <script src="{{url_for('static', filename = 'js/styleswitch.js') }}"></script>
+
+    <!-- main js
+    ============================================ -->
+    <script src="{{url_for('static', filename = 'js/main.js') }}"></script>
+</body>
+
+</html>

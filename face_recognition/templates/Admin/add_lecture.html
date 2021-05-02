@@ -1,0 +1,110 @@
+{% extends "Admin/layout.html" %}
+
+{% block body %}
+        <section class="page-title-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="page-title text-center">
+                            <h1>Add new Lecture</h1>
+                        </div>
+                        <div class="breadcrumbs-area  text-center">
+                            <ol class="breadcrumbs">
+                                <li><a href="index.html">Home</a></li>
+                                <li class="active">New lecture</li>
+                            </ol>
+                        </div>
+                        <div class="back-home">
+                            <a href="index.html"><i class="fa fa-arrow-left" aria-hidden="true"></i> BACK TO HOME</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End page title -->
+        <!-- Start Donate page area -->
+        <section class="donate-page-area pt-90 pb-80">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9 col-md-12 ml-auto mr-auto">
+                        <div class="donate-content">
+                            <div class="donate-form-container">
+                                <div class="donate-form-title">
+                                    <h3>Add new lecture</h3>
+                                </div>
+                                <div class="donation-form quick-donation-section donate-page">
+                                    <form action="/add-lecture" class="form" method="POST">
+                                        
+                                        <div class="tg-donetship">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="single-input mb-30" style="width: 1000px">
+                                                        <label >Subject</label>
+                                                        <input type="text" name="subject">
+                                                    </div>
+                                                </div>
+												<div class="col-lg-12">
+                                                    <div class="single-input mb-30" style="width: 1000px">
+                                                        <label >Faculty name</label>
+                                                        <input type="text" name="first_name">
+                                                    </div>
+                                                </div>
+												<div class="col-lg-6">
+                                                    <div class="single-input mb-30">
+                                                        <label>Semester</label><br />
+                                                        <select name = "sem" class="form-control" style="height: 55px; font-size: 14px;">
+                                                            <option selected>Select your semester</option>
+															<option>1st</option>
+															<option>2nd</option>
+															<option>3rd</option>
+															<option>4th</option>
+															<option>5th</option>
+															<option>6th</option>
+															<option>7th</option>
+															<option>8th</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+												<div class="col-lg-6">
+                                                    <div class="single-input mb-30">
+                                                        <label >Batch</label>
+                                                        <select id="div" name="div" class="form-control" style="height:55px; font-size: 14px;" >
+                                                            <option selected>G</option>
+                                                            <option>H</option>
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+												<div class="col-lg-12">
+                                                    <div class="single-input mb-30">
+                                                        <label>Select the slot</label><br />
+                                                        <select name = "slot" class="form-control" style="height: 55px; font-size: 14px;">
+                                                            <option selected>Select the slot</option>
+															<option>1st(10:30 - 11:30)</option>
+                                                            <option>2nd(11:30 - 12:30)</option>
+															<option>3rd(1:00 - 3:00)</option>
+															<option>4th(3:15 - 4:15)</option>
+															<option>5th(4:15 - 5:15)</option>
+															<option>6th</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+																							
+                                            </div>
+                                        </div>
+										
+                                        <div class="donate-btn text-center">
+                                            <button type="submit">Add</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End Donate page area -->
+        <!-- Start footer -->
+{% endblock body %}

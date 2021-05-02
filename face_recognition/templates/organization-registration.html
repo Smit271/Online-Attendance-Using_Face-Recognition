@@ -1,0 +1,136 @@
+﻿<!doctype html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Organization Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+    <meta name="description" content="Build whatever layout you need with our Architect framework.">
+    <meta name="msapplication-tap-highlight" content="no">
+
+    <link href="{{url_for('static', filename = 'organization-register.css') }}" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+
+<!--    <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header" style="padding: 100px"> -->
+                  
+                <div class="app-main" style="padding: 10px">
+                   <div class="app-main__outer">
+                    <div class="app-main__inner">
+                        <div class="app-page-title">
+                            <div class="page-title-wrapper">
+                                <div class="page-title-heading">
+                                    <div class="page-title-icon">
+                                        <i class="pe-7s-graph text-success">
+                                        </i>
+                                    </div>
+                                    <div>Registration of Organization</div>
+                                </div>
+                            </div>
+                        </div>            
+                        <div class="tab-content">
+                            <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+                                <div class="main-card mb-3 card">
+                                    <div class="card-body"><h5 class="card-title">Organization Registration</h5>
+                                        <form class="" method="POST" enctype="multipart/form-data">
+                                            <div class="form-row">
+                                                <div class="col-md-6">
+                                                    <div class="position-relative form-group">
+                                                        <label for="organizationname">Organization Name</label>
+                                                        <input name="organizationname" id="organizationname" placeholder="Enter your organization name" type="text" class="form-control" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="position-relative form-group">
+                                                        <label for="location">Location</label>
+                                                        <input name="location" id="location" placeholder="Enter your location" type="text" class="form-control" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="position-relative form-group">
+                                                        <label for="uniqueid">Unique Id</label>
+                                                        <input name="uniqueid" id="uniqueid" placeholder="Enter your registration number (unique id)" type="text" class="form-control" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="position-relative form-group">
+                                                        <label for="phone">Mobile Number</label>
+                                                        <input name="phone" id="phone" placeholder="Enter your mobile number" type="tel" class="form-control" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="position-relative form-group">
+                                                        <label for="email">E-mail Address</label>
+                                                        <input name="email" id="email" placeholder="eg. example@gmail.com" type="email" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="position-relative form-group">
+                                                        <label for="photo">Image</label>
+                                                        <input name="photo" id="photo" accept="image/*" placeholder="Upload a Image" type="file" class="form-control" required>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="position-relative form-group">
+                                                <label for="sector">Sector Working In</label><br />
+                                                <select class="form-control" name="sector" id="sector" style="width: 50%; font-size: 14px;" required>
+                                                    <option value="AGRICULTURE">AGRICULTURE</option>
+                                                    <option value="ANIMAL HUSBANDARY">ANIMAL HUSBANDARY</option>
+                                                    <option value="ART AND CULTURE">ART AND CULTURE</option>
+                                                    <option value="CHILDREN">CHILDREN</option>
+                                                    <option value="DIFFERENTLY ABLED">DIFFERENTLY ABLED</option>
+                                                    <option value="EDUCATION">EDUCATION</option>
+                                                    <option value="HEALTH AND FAMILY WELFARE">HEALTH AND FAMILY WELFARE</option>
+                                                    <option value="HIV/AIDS">HIV/AIDS</option>
+                                                    <option value="SOCIAL WORK">SOCIAL WORK</option>
+                                                    <option value="VOCATIONAL TRAINING">VOCATIONAL TRAINING</option>
+                                                    <option value="WOMEN'S WELFARE AND DEVELOPMENT">WOMEN'S WELFARE AND DEVELOPMENT</option>
+                                                </select>
+
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="col-md-6">
+                                                    <div class="position-relative form-group">
+                                                        <label for="password">Password</label>
+                                                        <input name="password" id="password" placeholder="Enter your password" type="password" class="form-control" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="position-relative form-group">
+                                                        <label for="confirmpassword">Re - Password</label>
+                                                        <input name="confirmpassword" id="confirmpassword" placeholder="Enter your re - password" type="password" class="form-control" required>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="position-relative form-group">
+                                                <label for="content">Organization Details</label>
+                                                <input name="content" id="content" placeholder="Enter details of organization" type="text" class="form-control" required>
+                                            </div>
+                                            <button class="mt-2 btn btn-primary">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+              </div>
+        </div>
+   <!-- </div>-->
+    <script type="text/javascript" src="{{url_for('static', filename = 'assets/scripts/main.js') }}"></script></body>
+
+<!-- Mirrored from demo.dashboardpack.com/architectui-html-free/forms-layouts.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 25 Dec 2020 11:27:10 GMT -->
+</html>

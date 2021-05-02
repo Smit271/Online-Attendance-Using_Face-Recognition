@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google Tag Manager -->
+    <script>//(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        //new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        //j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        //'../../../www.googletagmanager.com/gtm5445.html?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })//(window,document,'script','dataLayer','GTM-W24T6W7');</script>
+    <!-- End Google Tag Manager -->
+    <title>User Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <!-- External CSS libraries -->
+    <link type="text/css" rel="stylesheet" href="{{url_for('static', filename = 'assets/css/bootstrap.min.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{url_for('static', filename = 'assets/fonts/font-awesome/css/font-awesome.min.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{url_for('static', filename = 'assets/fonts/flaticon/font/flaticon.css') }}">
+
+    <!-- Favicon icon -->
+    <link rel="shortcut icon" href="{{url_for('static', filename = 'assets/img/favicon.ico') }}" type="image/x-icon">
+
+    <!-- Google fonts -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800%7CPoppins:400,500,700,800,900%7CRoboto:100,300,400,400i,500,700">
+
+    <!-- Custom Stylesheet -->
+    <link type="text/css" rel="stylesheet" href="{{url_for('static', filename = 'assets/css/style.css') }}">
+    <link rel="stylesheet" type="text/css" id="style_sheet" href="{{url_for('static', filename = 'assets/css/skins/default.css') }}">
+
+</head>
+<body id="top" style="overflow:scroll;text-align:left">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src=""
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+<!-- Login 12 start -->
+{% block content %}
+<div class="login-12" >
+    <div class="container-fluid bg-color-13">
+        <div class="col-12 bg-color-13" >
+            <div class="form-section">
+                <div class="logo clearfix">
+                    <a>
+                        <h2 style="color: #5ed5c2;">The Smart Attendance</h2>
+                    </a>
+                </div>
+                <h3>Create a user account</h3>
+             <!--   <div class="btn-section clearfix">
+                    <a href="login-user.html" class="link-btn active btn-1 default-bg">Login @user</a>
+                    <a href="login-organization.html" class="link-btn btn-2 active-bg">Login @org.</a>
+                </div> -->
+                <div class="btn-section clearfix">
+                    <a href="/user-register" class="link-btn active btn-1 active-bg">As Student </a>
+                    <a href="/faculty-register" class="link-btn btn-2 default-bg">As Faculty</a>
+                </div>
+                <div class="login-inner-form">
+                    
+                    <form class="form" method="post" action="/user-register">
+                        {{ form.hidden_tag() }}
+                        <div class="form-group form-box">
+                            <!--{{ form.username.label(class="form-control-label") }}-->
+                            {% if form.username.errors %}
+                            {{ form.username(class="form-control form-control-sm is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.username.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.username(class="form-control form-control-sm") }}
+                            {% endif %}
+                            
+                            <!--<input type="text" name="username" id="username" class="input-text" placeholder="Username">-->
+                            <i class="flaticon-user"></i>
+                        </div>
+                        
+                        <div class="form-group form-box">
+                            <!--{{ form.email.label(class="form-control-label") }}-->
+                            {% if form.email.errors %}
+                            {{ form.email(class="form-control form-control-sm is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.email(class="form-control form-control-sm") }}
+                            {% endif %}
+
+                            <!--<input type="email" name="email" id="email" class="input-text" placeholder="Email Address">-->
+                            <i class="flaticon-mail-2"></i>
+                        </div>
+                        <div class="form-group form-box">
+                            <!--{{ form.password.label(class="form-control-label") }}-->
+                            
+                            {% if form.password.errors %}
+                            {{ form.password(class="form-control form-control-sm is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.password(class="form-control form-control-sm") }}
+                            {% endif %}
+                            <!--<input type="password" name="password" id="password" class="input-text" placeholder="Password">-->
+                            <i class="flaticon-password"></i>
+                        </div>
+                        <div class="form-group form-box">
+                            <!--{{ form.confirmpassword.label(class="form-control-label") }}-->
+                            {% if form.confirmpassword.errors %}
+                            {{ form.confirmpassword(class="form-control form-control-sm is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.confirmpassword.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.confirmpassword(class="form-control form-control-sm") }}
+                            {% endif %}
+                            <!--<input type="password" name="confirmpassword" id="confirmpassword" class="input-text" placeholder="Confirm Password">-->
+                            <i class="flaticon-password"></i>
+                        </div>
+                        <div class="checkbox clearfix">
+                            <div class="form-check checkbox-theme">
+                                <input class="form-check-input" type="checkbox" value="" id="terms" required>
+                                <label class="form-check-label" for="terms">
+                                    I agree to the terms of service
+                                </label>
+                            </div>
+                        </div>
+
+                           <div class="checkbox clearfix">
+                            <div class="form-check checkbox-theme">
+                                 <a style="text-decoration: blanchedalmond;" href="/login-user"><p>Already have an account? Login</p></a>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            {{ form.submit(class="btn-md btn-theme btn-block") }}
+
+                        </div>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- External JS libraries -->
+    <script src="{{url_for('static', filename = 'assets/js/jquery-2.2.0.min.js') }}"></script>
+    <script src="{{url_for('static', filename = 'assets/js/popper.min.js') }}"></script>
+    <script src="{{url_for('static', filename = 'assets/js/bootstrap.min.js') }}"></script>
+<!-- Custom JS Script -->
+</body>
+</html>

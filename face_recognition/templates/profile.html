@@ -1,0 +1,155 @@
+﻿{% extends 'layout.html' %}
+{% block body %}
+        <!-- Start page title -->
+        <section class="page-title-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="page-title text-center">
+                            <h1>Add Photos</h1>
+                        </div>
+                        <div class="breadcrumbs-area  text-center">
+                            <ol class="breadcrumbs">
+                                <li><a href="#">Home</a></li>
+                                <li class="active">Profile</li>
+                            </ol>
+                        </div>
+                        <div class="back-home">
+                            <a href="index.html"><i class="fa fa-arrow-left" aria-hidden="true"></i> BACK TO HOME</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End page title -->
+        <!-- Start Donate page area -->
+        <section class="donate-page-area pt-90 pb-80">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9 col-md-12 ml-auto mr-auto">
+                        <div class="donate-content">
+                            <div class="donate-form-container">
+                                <div class="donate-form-title">
+                                    <h3>ADD PHOTOS FORM</h3>
+                                </div>
+                                <div class="donation-form quick-donation-section donate-page">
+                                    <form action="/add_photos" class="form" method="POST" enctype="multipart/form-data">
+                                        
+                                        <div class="tg-donetship">
+                                           
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="single-input mb-30" style="width: 1000px">
+                                                        <label >Full Name</label>
+                                                        <input type="text" id="name" name="name" placeholder="Ex: Varun Nayak">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="single-input mb-30">
+                                                        <label>Enrollment</label>
+                                                        <input id="enroll" type="text" name="enroll" placeholder="Ex: 180170107001" >
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="single-input mb-30">
+                                                        <label>Email </label>
+                                                        <input id="email" type="text" name="email"  value= {{ current_user.email }} readonly = true >
+                                                    </div>
+                                                </div>
+												<div class="col-lg-6">
+                                                    <div class="single-input mb-30">
+                                                        <label>Select your branch</label><br />
+                                                        <select id="branch" name="branch" class="form-control" style="height:55px; font-size: 14px;" >
+                                                            <option selected>Select the branch</option>
+															<option>Chemical</option>
+                                                            <option>Civil</option>
+															<option>Mechanical</option>
+															<option>Electrical</option>
+															<option>EC</option>
+															<option>Computer</option>
+															<option>IT</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+												<div class="col-lg-6">
+                                                    <div class="single-input mb-30">
+                                                        <label>Semester</label><br />
+                                                        <select id="sem" name="sem" class="form-control" style="height:55px; font-size: 14px;" >
+                                                            <option selected>Select your semester</option>
+															<option>1st</option>
+															<option>2nd</option>
+															<option>3rd</option>
+															<option>4th</option>
+															<option>5th</option>
+															<option>6th</option>
+															<option>7th</option>
+															<option>8th</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="single-input mb-30">
+                                                        <label>Division</label>
+                                                       <select id="div" name="div" class="form-control" style="height:55px; font-size: 14px;" >
+															<option selected>G</option>
+															<option>H</option>
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+<!--												<div class="col-lg-6">-->
+<!--                                                    <div class="single-input mb-30">-->
+<!--                                                        <label>Confirm password</label>-->
+<!--                                                        <input type="password" name="pwd" placeholder="Re-enter the password">-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+												<div class="col-lg-6">
+													<div class="single-input mb-30">
+														<label>Upload 1st photo</label>
+														<input id="img1" name="img1" type="file" class="form-control-file" >
+													</div>
+												</div>
+												<div class="col-lg-6">
+													<div class="single-input mb-30">
+														<label>Upload 2nd photo</label>
+														<input id="img2" name="img2" type="file" class="form-control-file" >
+													</div>
+												</div>
+												<div class="col-lg-6">
+													<div class="single-input mb-30">
+														<label>Upload 3rd photo</label>
+														<input id="img3" name="img3" type="file" class="form-control-file">
+													</div>
+												</div>
+												<div class="col-lg-6">
+													<div class="single-input mb-30">
+														<label>Upload 4th photo</label>
+														<input id="img4" name="img4" type="file" class="form-control-file" >
+													</div>
+												</div>
+												<div class="col-lg-6">
+													<div class="single-input mb-30 ">
+														<label>Upload 5th photo</label>
+														<input id="img5" name="img5" type="file" class="form-control-file">
+													</div>
+												</div>
+											
+                                            </div>
+                                        </div>
+										
+                                        <div class="donate-btn text-center">
+                                            <button type="submit">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End Donate page area -->
+        {% endblock body %}

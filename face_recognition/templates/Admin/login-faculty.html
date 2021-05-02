@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+    <title>Login-user</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <!-- External CSS libraries -->
+    <link type="text/css" rel="stylesheet" href="{{url_for('static', filename = 'assets/css/bootstrap.min.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{url_for('static', filename = 'assets/fonts/font-awesome/css/font-awesome.min.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{url_for('static', filename = 'assets/fonts/flaticon/font/flaticon.css') }}">
+
+    <!-- Favicon icon -->
+    <link rel="shortcut icon" href="assets/img/favicon.ico" type="{{url_for('static', filename = 'image/x-icon') }}">
+
+    <!-- Google fonts -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800%7CPoppins:400,500,700,800,900%7CRoboto:100,300,400,400i,500,700">
+
+    <!-- Custom Stylesheet -->
+    <link type="text/css" rel="stylesheet" href="{{url_for('static', filename = 'assets/css/style.css') }}">
+    <link rel="stylesheet" type="text/css" id="style_sheet" href="{{url_for('static', filename = 'assets/css/skins/default.css') }}">
+
+</head>
+<body id="top" style="overflow:hidden;">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src=""
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+<!-- Login 12 start -->
+
+    {% block content %}
+<div class="login-12">
+    <div class="container-fluid bg-color-13">
+        <div class="col-12 bg-color-13">
+            <div class="form-section">
+                <div class="logo clearfix">
+                    <a>
+                        <h2 style="color: #5ed5c2;">The Smart Attendance</h2>
+                    </a>
+                </div>
+                <h3>Sign into FACULTY account</h3>
+                <div class="btn-section clearfix">
+                    <a href="/login-user" class="link-btn btn-1 default-bg">Login @ Student </a>
+                    <a href="/login-faculty" class="link-btn active btn-2 active-bg">Login @ Faculty</a>
+                </div>
+                <div class="login-inner-form">
+                    <form action="" method="post">
+                        {{ form.hidden_tag() }}
+                        <div class="form-group form-box">
+                            <!--<input type="email" name="email" class="input-text" placeholder="Email Address">-->
+                            {% if form.email.errors %}
+                            {{ form.email(class="form-control form-control-sm is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.email(class="form-control form-control-sm") }}
+                            {% endif %}
+                            <i class="flaticon-mail-2"></i>
+                        </div>
+                        <div class="form-group form-box">
+                            <!--<input type="password" name="password" class="input-text" placeholder="Password">-->
+                            {% if form.password.errors %}
+                            {{ form.password(class="form-control form-control-sm is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.password(class="form-control form-control-sm") }}
+                            {% endif %}
+                            <i class="flaticon-password"></i>
+                        </div>
+                        
+                            <a style="text-decoration: blanchedalmond;" href="/faculty-register"><p> Don't have account? Register </p></a>
+    
+                        <a style="text-decoration: blanchedalmond;" href="/forget-password"><p> Forget Password ?</p></a>
+                        <a style="text-decoration: blanchedalmond;" href="/faculty-home"><p> go to home</p></a>
+                    </br>
+                        <div class="form-group">
+                            <!--<button type="submit" class="btn-md btn-theme btn-block">Login</button>-->
+                            {{ form.submit(class="btn-md btn-theme btn-block") }}
+                        </div>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Login 12 end -->
+    {% endblock content %}
+<!-- External JS libraries -->
+    <script src="{{url_for('static', filename = 'assets/js/jquery-2.2.0.min.js') }}"></script>
+    <script src="{{url_for('static', filename = 'assets/js/popper.min.js') }}"></script>
+    <script src="{{url_for('static', filename = 'assets/js/bootstrap.min.js') }}"></script>
+<!-- Custom JS Script -->
+</body>
+
+</html>

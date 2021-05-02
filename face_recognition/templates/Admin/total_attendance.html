@@ -1,0 +1,149 @@
+{% extends "Admin/layout.html" %}
+{% block body %}
+        <!-- Start page title -->
+		<section class="page-title-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="page-title text-center">
+                            <h1>Attendance Table</h1>
+                        </div>
+                        <div class="breadcrumbs-area  text-center">
+                            <ol class="breadcrumbs">
+                                <li><a href="index.html">Home</a></li>
+                                <li class="active">Attendance</li>
+                            </ol>
+                        </div>
+                        <div class="back-home">
+                            <a href="index.html"><i class="fa fa-arrow-left" aria-hidden="true"></i> BACK TO HOME</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End page title -->
+        <!-- Start Donate page area -->
+        <section class="donate-page-area pt-90 pb-80">
+            <div class="container">
+            <form action="" class="form" method="POST">
+                                        
+                <div class="tg-donetship">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="single-input mb-30" style="width: 1000px">
+                                <label >Subject</label>
+                                <select name = "sub" class="form-control" style="height: 55px; font-size: 14px;">
+                                    {% for sub in form.sub %}
+                                    <option value="">{{ sub }}</option>"
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="single-input mb-30">
+                                <label>Semester</label><br />
+                                <select name = "sem" class="form-control" style="height: 55px; font-size: 14px;">
+                                    <option selected>Select your semester</option>
+                                    <option>1st</option>
+                                    <option>2nd</option>
+                                    <option>3rd</option>
+                                    <option>4th</option>
+                                    <option>5th</option>
+                                    <option>6th</option>
+                                    <option>7th</option>
+                                    <option>8th</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="single-input mb-30">
+                                <label >Batch</label>
+                                <select id="div" name="div" class="form-control" style="height:55px; font-size: 14px;" >
+                                    <option selected>G</option>
+                                    <option>H</option>
+                                </select>
+                            </div>
+                        </div>
+                                                                    
+                    </div>
+                </div>
+                
+                <div class="donate-btn text-center">
+                    <button type="submit" class="btn btn-info" value="search" name="search">Search</button>
+                </div>
+
+                <br>
+                
+                <div class="donate-btn text-center">
+                    <button type="submit" class="btn btn-info" value="get pdf" name="pdf">Download PDF</button>
+                </div>
+                <br>
+                
+                <div class="donate-btn text-center">
+                    <button type="submit" class="btn btn-info" value="get excel" name="excel">Download Excel Sheet</button>
+                </div>
+            </form>
+            </div>
+            <hr>
+            {% if data %}
+            <div class="container">
+                 <div class="row">
+                        <!-- Start section title -->
+                        <div class="col-sm-12">
+                            <div class="section-title text-center">
+                                <h2>Total <span>Attendance</span></h2>
+                                <img src="img/title-bottom.png" alt="">
+                                <p>Term Start Date : {{ lecture_detail["start_term"] }} <br>Subject: 
+                                    {%for sub in lecture_detail["subject"]%}
+                                    {{ sub }}
+                                    {% endfor %}
+                                </p>
+                            </div>
+                        </div>
+                        <!-- End section title -->
+                    </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 ml-auto mr-auto">
+                        <div class="donate-content">
+                            <div class="donate-form-container">
+                                <div class="donation-form quick-donation-section donate-page">
+                                    <table class="table table-hover">
+									  <thead>
+										<tr>
+										  <th scope="col">Sr. No</th>
+										  <th scope="col">Name</th>
+										  <th scope="col">Enrollment</th>
+                                          <th scope="col">Semester</th>
+										  <th scope="col">Batch</th>
+                                          <th scope="col">Subject</th>
+										  <th scope="col">Lecture Slot</th>
+										  <th scope="col">Attendance</th>
+										</tr>
+									  </thead>
+									  <tbody>
+									  {% for each in data %}
+
+                                        <tr>
+                                        <td scope="row">{{ loop.index }}</td>
+                                        <td>{{ each["name"] }}</td>
+                                        <td>{{ each["enrollment"] }}</td>
+                                        <td>{{ each["sem"] }}</td>
+                                        <td>{{ each["batch"] }}</td>
+                                        <td>{{ each["sub"] }}</td>
+                                        <td>{{ each["slot"] }}</td>
+                                        <td>{{ each["present"] }}/{{ lecture_detail['total'] }}</td>
+
+                                        </tr>
+									  {% endfor %}
+									  </tbody>
+									</table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+        <!-- End Donate page area -->
+{% endblock body %}

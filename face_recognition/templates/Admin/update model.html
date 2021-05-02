@@ -1,0 +1,70 @@
+{% extends "Admin/layout.html"%}
+{% block body %}
+<!-- Start page title -->
+		<section class="page-title-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="page-title text-center">
+                            <h1>Update Model</h1>
+                        </div>
+                        <div class="breadcrumbs-area  text-center">
+                            <ol class="breadcrumbs">
+                                <li><a href="index.html">Home</a></li>
+                                <li class="active">Update Model</li>
+                            </ol>
+                        </div>
+                        <div class="back-home">
+                            <a href="index.html"><i class="fa fa-arrow-left" aria-hidden="true"></i> BACK TO HOME</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End page title -->
+        <!-- Start Donate page area -->
+        <section class="donate-page-area pt-90 pb-80">
+            <div class="container">
+                 <div class="row">
+                        <!-- Start section title -->
+                        <div class="col-sm-12">
+                            <div class="section-title text-center">
+                                <h2>Update <span>Model</span></h2>
+                                <img src="img/title-bottom.png" alt="">
+                                <p>List of Updated Students</p>
+                            </div>
+                        </div>
+                        <!-- End section title -->
+                    </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 ml-auto mr-auto">
+                        <div class="donate-content">
+                            <div class="donate-form-container">
+                                <div class="donation-form quick-donation-section donate-page">
+                                    <table class="table table-hover">
+									  <thead>
+										<tr>
+										  <th scope="col">Sr. No</th>
+										  <th scope="col">Name</th>
+										</tr>
+									  </thead>
+									  <tbody>
+                                      {% set ind = 1 %}
+									  {% for each in labels %}
+										<tr>
+										  <td scope="row">{{ loop.index }}</td>
+										 <td>{{ each }}</td>
+										 {% set ind = ind + 1 %}
+										</tr>
+									  {% endfor %}
+									  </tbody>
+									</table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End Donate page area -->
+{% endblock body %}
