@@ -24,5 +24,6 @@ login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
 db = SQLAlchemy(app)
+db.create_all()
 from face_recognition.WebCam_Face_Recognition import modules
 from face_recognition import routes

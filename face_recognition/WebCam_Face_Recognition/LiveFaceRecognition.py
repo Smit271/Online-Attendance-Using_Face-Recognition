@@ -65,17 +65,20 @@ def camera():
 	#store already present students
 	slot = int(modules.get_slot())
 	today_date = str(datetime.today().date())
+
+	today_date1 = datetime.now()
+	today_day = today_date1.strftime("%A")
 	#tt_slot = TimeTable.get_id()
 	temp_id = current_user.get_email()
 	faculty_id = faculty.query.filter_by(email = temp_id).first().id
 	print(slot)
 	print(faculty_id)
 	try :
-		timetable_details = TimeTable.query.filter_by(slot = slot, faculty_id = faculty_id, date = today_date).first()
+		timetable_details = TimeTable.query.filter_by(slot = slot, faculty_id = faculty_id, day = today_day).first()
 		timetable_id = timetable_details.id
 
 	except:
-		timetable_details = TimeTable.query.filter_by(faculty_id = faculty_id, date = today_date).first()
+		timetable_details = TimeTable.query.filter_by(faculty_id = faculty_id, day = today_day).first()
 		timetable_id = timetable_details.id
 
 	print(timetable_id)
@@ -185,7 +188,7 @@ def camera():
 					slot = str(modules.get_slot())
 					#get student name
 					#print(class_name)
-					t1 = TimeTable.query.filter_by(slot = slot, date = today_date, faculty_id = faculty_id).first()
+					t1 = TimeTable.query.filter_by(slot = slot, day = today_day, faculty_id = faculty_id).first()
 					s1 = Student.query.filter_by(name = class_name, sem = t1.sem).first()
 					print(s1)
 					s1_enroll = s1.enrollment

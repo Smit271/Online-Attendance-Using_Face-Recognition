@@ -92,7 +92,7 @@ class TimeTable(db.Model):
     slot = db.Column(db.Integer, unique=False, nullable=False)
     #faculty_name = db.Column(db.String(50), unique=False, nullable=False)
     faculty_id = db.Column(db.Integer, db.ForeignKey("faculty.id"))
-    date = db.Column(db.String(50), unique=False, nullable=False)
+    day = db.Column(db.String(50), unique=False, nullable=False)
     attendence = db.relationship("Attendence", backref="time_table")
 
     def get_id(self):

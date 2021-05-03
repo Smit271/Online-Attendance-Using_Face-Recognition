@@ -79,6 +79,7 @@ class AddTimeTableForm(FlaskForm):
     batch = StringField("Batch", validators=[DataRequired()])
     slot = StringField("Slot", validators=[DataRequired()])
     faculty_name = StringField("Faculty Name", validators=[DataRequired(), Length(2,50)])
+    day = StringField("Day", validators=[DataRequired(), Length(2,50)])
 
     start_time = StringField("Start Time",validators=[DataRequired()])
     end_time = StringField("End Time", validators=[DataRequired()])
@@ -108,7 +109,7 @@ class LoginForm(FlaskForm):
 
 
 class Search(FlaskForm):
-    sem = SelectField("Semester", choices=['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th'])
-    sub = SelectField("Subject", choices=[])
-    batch = SelectField("Division", choices = ['G', 'H'])
+    sem = SelectField("Semester", choices=['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th'], validators=[DataRequired()])
+    sub = SelectField("Subject", choices=[], validators=[DataRequired()])
+    batch = SelectField("Division", choices = ['G', 'H'], validators=[DataRequired()])
     submit = SubmitField("Search Attendance")
