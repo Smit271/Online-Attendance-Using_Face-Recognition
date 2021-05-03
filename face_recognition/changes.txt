@@ -1,0 +1,5 @@
+1)Why we need date column in time-table?
+2)By default faculty can see all attendance
+3)take faculty name as read only in add lecture form
+4) Lecture validation :
+-> same sem, same div, same slot, diff subject should also not allowed

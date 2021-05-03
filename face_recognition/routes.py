@@ -246,8 +246,9 @@ def faculty_attendance():
 
     temp_mail = current_user.get_email()
     faculty_id = faculty.query.filter_by(email = temp_mail).first().id
-    row = TimeTable.query.filter_by(faculty_id=faculty_id, date = today_date).distinct().all()
-
+    print(f"faculty id:{faculty_id}")
+    row = TimeTable.query.filter_by(faculty_id=faculty_id).distinct().all()
+    print(row)
     form  = Search()
     sub = [row[i].subject for i in range(len(row))]
     subs = list(set(sub))
@@ -256,20 +257,21 @@ def faculty_attendance():
         sub = request.form['sub']
         div = request.form['div']
         sem = request.form['sem']
-        #print(sub, div, sem)
-        row = TimeTable.query.filter_by(faculty_id=faculty_id, sem = sem, batch = div, subject = sub, date = today_date).all()
+        print(sub, div, sem)
+        row = TimeTable.query.filter_by(faculty_id=faculty_id, sem = sem, batch = div, subject = sub).all()
         print(row)
 
         if not row:
             flash(f"Can't Find Lecture of {sem} - {div} for Subject {sub} for today","danger")
-            return redirect(url_for("timetable"))
+            #return redirect(url_for("timetable"))
+            return redirect(url_for("faculty_attendance"))
         #get subject of current faculty
         
         subjects = []
         #get time table id of that subject
         tt_id = row[0].id
         present_students = Attendence.query.filter_by(date=today_date,timetable_id=tt_id).all()
-        print(present_students)
+        #print(present_students)
 
         if not present_students:
             flash(f"You hadn't taken Any Attendance for Students of {sem} - {div} for Subject {sub} Today","danger")
