@@ -47,10 +47,8 @@
 
 										<tr>
 										  <th scope="col">Sr. No</th>
-										  <th scope="col">Lecture Slot</th>
 										  <th scope="col">Subject</th>
-										  <th scope="col">Attended (1 : Yes, 0 : No)</th>
-                                          <th scope="col">date</th>
+										  <th scope="col">Total Attended</th>
 <!--										  <th scope="col">Time</th>-->
 <!--										  <th scope="col">Lecture Slot</th>-->
 <!--										  <th scope="col">Timestamp</th>-->
@@ -60,10 +58,8 @@
                                       {% for each in row %}
 										<tr>
 										  <th scope="row">{{ loop.index }}</th>
-										  <td>{{ each["slot"] }}</td>
 										  <td>{{ each["subject"] }}</td>
-										  <td>{{ each["present"] }}</td>
-                                          <td>{{ each["date"] }}</td>
+										  <td>{{ each["present"] }} / {{ each["day"] }}</td>
 <!--										  <td>{{ each["time"] }}</td>-->
 <!--										  <td>1</td>-->
 <!--										  <td>123123123</td>-->

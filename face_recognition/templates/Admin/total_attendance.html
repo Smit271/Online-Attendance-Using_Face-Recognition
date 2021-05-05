@@ -94,7 +94,7 @@
                                 <h2>Total <span>Attendance</span></h2>
                                 <img src="img/title-bottom.png" alt="">
                                 <p>Term Start Date : {{ lecture_detail["start_term"] }} <br>Subject: 
-                                    {{ lecture_detail["subject"][0] }}
+                                    {{ lecture_detail["subject"] }}
                                 </p>
                             </div>
                         </div>
@@ -109,11 +109,10 @@
 									  <thead>
 										<tr>
 										  <th scope="col">Sr. No</th>
+                                          <th scope="col">Enrollment</th>
+										  <th scope="col">Name</th>
                                           <th scope="col">Semester</th>
-										  <th scope="col">Batch</th>
-                                          <th scope="col">Subject</th>
-                                          <th scope="col">Date</th>
-										  <th scope="col">Lecture Slot</th>
+                                          <th scope="col">Division</th>
 										  <th scope="col">Attendance</th>
 										</tr>
 									  </thead>
@@ -122,11 +121,10 @@
 
                                         <tr>
                                         <td scope="row">{{ loop.index }}</td>
+                                        <td>{{ each["Enrollment"] }}</td>
+                                        <td>{{ each["Name"] }}</td>
                                         <td>{{ each["sem"] }}</td>
                                         <td>{{ each["batch"] }}</td>
-                                        <td>{{ lecture_detail['subject'][0] }}</td>
-                                        <td>{{ each["date"] }}</td>
-                                        <td>{{ each["slot"] }}</td>
                                         <td>{{ each["present"] }}/{{ lecture_detail['total'] }}</td>
 
                                         </tr>

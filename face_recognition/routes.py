@@ -106,21 +106,19 @@ def timetable():
 
         # Checking of that slot by any faculty on that day is taken or not
         tt_taken = TimeTable.query.filter(and_(TimeTable.slot == slot,
-                                            TimeTable.sem == sem,
-                                            TimeTable.batch == batch,
                                             TimeTable.day == day)).first()
         
         #print(tt_taken)
         if tt_taken:
             taken_faculty_name = faculty.query.filter_by(id = tt_taken.faculty_id).first().name
-            flash(f"Today's slot {slot} already taken for {sem} - {batch} for Subject {tt_taken.subject} by {taken_faculty_name} !!", "danger")
+            flash(f"{day}'s slot {slot} already taken for {tt_taken.sem} - {tt_taken.batch} for Subject {tt_taken.subject} by {taken_faculty_name} !!", "danger")
             return redirect(url_for("timetable"))
 
 
         #print(faculty_id)
 
         if sum == "" or name == "" or sem == "" or batch=="" or slot=="":
-            flash("enter all data","danger")
+            flash("Please Enter all data","danger")
             return redirect(url_for("timetable"))
 
         entry = TimeTable(subject = sub, sem = sem, batch=batch,slot=slot,
@@ -146,6 +144,8 @@ def student_total_attendance():
     today = dt.date(2021,5,10)
     end_term = min(datetime.today().date(),today)
     total_days = np.busday_count(start_term, end_term)+1
+    today_date = datetime.today().date()
+    row = [] # To store details of lecture and all
 
     #get student id, student name & batch
     user_email = current_user.get_email()
@@ -157,50 +157,69 @@ def student_total_attendance():
         flash("Looks like you haven't uploaded your photos, First upload your photos here!","danger")
         return redirect(url_for("add_photos"))
 
+    # get Student ID of current user
     student_id = student_id.id
-
-    #get Student data
+    # getting student's details
     student = Student.query.filter_by(id = student_id).first()
     name = student.name
     sem = student.sem
     batch = student.sem + "-" + student.div
-    user_data = {"name": name, "batch": batch,"start_term":start_term}
+    user_data = {"name": name, "batch": batch, "start_term":start_term}
 
+    # getting that student's semester subjects names
+    tmp = TimeTable.query.filter_by(sem = sem, batch = student.div).all()
+    sub_set = set() #--> To store distinct subjects
+
+    if not tmp:
+        flash(f"Looks like faculty hasn't added lecture for {batch}!","danger")
+        return redirect(url_for("home"))
+
+    for i in tmp:
+        sub_set.add(i.subject)
+
+    sub_list = list(sub_set)
+    print(sub_list)
+
+    # Now getting details of particular semester batch and subjects
+    for i in range(len(sub_list)):
+        sub = sub_list[i]
+        print(sub)
+        attended_lec = 0 # To store particular subjects total attended lecture 
+        total_lecs = 0 # To store particular subjects total lecture 
+        tmp2 = TimeTable.query.filter_by(sem = sem, batch = student.div, subject = sub).all()
+
+        for i in tmp2:
+            #lec_days.append(i.day)
+            total_lecs += np.busday_count(str(start_term), today_date, weekmask = i.day[:3])
+            if start_term.strftime("%A") == i.day:
+                total_lecs += 1
+
+        for j in tmp2:
+            attended_lecs = Attendence.query.filter_by(student_id = student_id, timetable_id = j.id).all()
+            if attended_lecs:
+                attended_lec += len(attended_lecs)
+            else:
+                attended_lec += 0
+        temp = {"subject": sub, "present": attended_lec, "day" : total_lecs}
+        row.append(temp)
+    '''
     #getting all lectures are which are attended
     attended_lecs = Attendence.query.filter_by(student_id = student_id).all()
-    print(attended_lecs)
-
-    #count total attendance of particular subject
-    attended_lecs_ids = {}
-    for each in attended_lecs:
-        try:
-            attended_lecs_ids[each.timetable_id] += 1
-        except:
-            attended_lecs_ids[each.timetable_id] = 1
-
-    print(attended_lecs_ids)
-    row = []
-
-    #TimeTable rows
-    lecs = TimeTable.query.filter_by(sem = sem, batch = student.div).all()
-
-
-    for lec in lecs:
-        temp = {"subject":lec.subject,"slot":lec.slot,"present":0, "day" : lec.day}
-
-        #note total attendance
-        if lec.id in attended_lecs_ids:
-            temp['present'] = 1
-        row.append(temp)
-
-    print(user_data)
-    print(row)
+    if not attended_lecs:
+        flash("Looks like you haven't attended any lecture!","danger")
+        return redirect(url_for("home"))
+    
+    for lecs in attended_lecs:
+        tt_lecs = TimeTable.query.filter_by(id = lecs.timetable_id)
+    rows = TimeTable.query.filter_by(sem = sem, batch = student.div).all()
+    present_count = 0
+    
+    '''
 
     '''
     user_data.keys= name,batch
     row.keys = slot,subject,time,status
     '''
-
 
     return render_template("total_attendance.html",row=row,user_data=user_data)
 
@@ -214,19 +233,22 @@ def student_today_attendance():
     if not student_details:
         flash("Can't open Attendance Page, First upload your pictures here!","danger")
         return redirect(url_for("add_photos"))
+
     student_id = student_details.id
-    student = Student.query.filter_by(id = student_id).first()
-    name = student.name
-    sem = student.sem
-    div = student.div
-    batch = str(sem) + "-" + str(student.div)
+    name = student_details.name
+    print(f"student_id:{student_id}")
+    print(f"name:{name}")
+    sem = student_details.sem
+    div = student_details.div
+    batch = str(sem) + "-" + str(student_details.div)
     user_data = {"name": name, "batch": batch}
+
 
     #getting which lectures are attended
     #print(str(today_date.date()))
     attended_lecs = Attendence.query.filter_by(student_id = student_id, date=str(today_date.date())).all()
     attended_lecs_ids = [each.timetable_id for each in attended_lecs]
-    #print(attended_lecs_ids)
+    print(f"attended_lecs_ids:{attended_lecs_ids}")
     row = []
 
     #TimeTable rows
@@ -329,6 +351,10 @@ def faculty_total_attendance():
     end_term = min(datetime.today().date(), today)
     today_date = str(datetime.today().date())
     total_days = np.busday_count(start_term, end_term)+1
+    # Getting Total days since today for making excel file
+    temp = datetime.today().date() - start_term
+    total_days_since_today = temp.days + 1
+    #print(total_days_since_today)
     data0 = [["Name", "Enrollment", "Division", "Semester", "Total_Attended"]]
     #print(today_date)
 
@@ -345,47 +371,50 @@ def faculty_total_attendance():
             div = request.form['div']
             sem = request.form['sem']
             #print(sub, div, sem)
+            #--> Checking lecture is taken or not
             row = TimeTable.query.filter_by(faculty_id=faculty_id, sem = sem, batch = div, subject = sub).all()
+            total_lecs = 0 # --> To Store total lecture have been occured since term start
 
             if not row:
                 flash(f"Can't Find Lecture of {sem} - {div} for Subject {sub}","danger")
                 return redirect(url_for("timetable"))
+
+            for i in row:
+                #lec_days.append(i.day)
+                total_lecs += np.busday_count(str(start_term), today_date, weekmask = i.day[:3])
+                if start_term.strftime("%A") == i.day:
+                    total_lecs += 1
+
+            # --> Getting searched sem and div students list
+            student_rows = Student.query.filter_by(div = div, sem = sem).all()
+            # --> Checking 
+            if not student_rows:
+                flash(f"Student's detail of  {sem} - {div} is not available", "danger")
+                return render_template("Admin/total_attendance.html", form = form)
+
+
             #get subject of current faculty
             data = []
-            subjects = []
-            print(row)
-            for i in range(len(row)):
-                subjects.append(row[i].subject)
-
-                #get time table id of that subject
-                tt_id = row[i].id
-                # --> Getting searched sem and div students list
-                student_rows = Student.query.filter_by(div = div, sem = sem).all()
-                #print(student_rows)
-
-                if not student_rows:
-                    flash(f"You hadn't taken Any Attendance for Students of {sem} - {div} for Subject {sub}","danger")
-                    return render_template("Admin/total_attendance.html", form = form)
+            #print(row)
+            for i in range(len(student_rows)):
+                present_count = 0
                 
                 temp = {
+                        "Enrollment" : student_rows[i].enrollment,
+                        "Name" : student_rows[i].name,
                         "sem"  : sem,
-                        "batch": div,
-                        "slot" : row[i].slot,
-                        "date" : row[i].day
+                        "batch": div
                         }
-                #student_user_id = student.id
+                student_user_id = student_rows[i].id
                 #student_user_id = user.query.filter_by(email=student.email).first().userid
-                total_students = len(student_rows)
-                count = 0
+                #total_students = len(student_rows)
+                #count = 0
                 # --> Checking if searched sem and div student presented in that lec or not
-                for s in student_rows:
-                    presented = Attendence.query.filter_by(timetable_id=tt_id, student_id = s.id).all()
-                    if presented:
-                        count += 1
-                present_students = min(count, total_students)
-                #print(student_user_id,present_count)
-                temp['present'] = present_students
-                lecture_detail = {"subject":subjects,"start_term":start_term, 'total' : total_students}
+                for k in range(len(row)):
+                    tt_id = row[k].id
+                    present_count += len(Attendence.query.filter_by(timetable_id=tt_id,student_id=student_user_id).all())
+                temp['present'] = present_count
+                lecture_detail = {"subject":sub,"start_term":start_term, 'total' : total_lecs}
                 data.append(temp)
                 #print(data0)
             return render_template("Admin/total_attendance.html", data = data, lecture_detail = lecture_detail, form = form)
@@ -401,7 +430,7 @@ def faculty_total_attendance():
             if not row:
                 flash(f"Can't Find Lecture of {sem} - {div} for Subject {sub}","danger")
                 return redirect(url_for("timetable"))
-            #get subject of current faculty
+            '''#get subject of current faculty
             subjects = []
             
             for i in range(len(row)):
@@ -409,14 +438,16 @@ def faculty_total_attendance():
 
                 #get time table id of that subject
                 
-                lecture_detail = {"subject":subjects,"total":total_days,"start_term":start_term}
-                student_rows = Student.query.filter_by(div = div, sem = sem).all()
+                lecture_detail = {"subject":subjects,"total":total_days,"start_term":start_term}'''
+            student_rows = Student.query.filter_by(div = div, sem = sem).all()
+            
 
             if not student_rows:
-                flash(f"You hadn't taken Any Attendance for Students of {sem} - {div} for Subject {sub}","danger")
+                flash(f"Student's of  {sem} - {div} detail is not availablefor","danger")
+                return render_template("Admin/total_attendance.html", form = form)
             
             for i in range(len(student_rows)):
-                tt_id = row[0].id
+                present_count = 0 # --> Count of student's total attended lectures of particular subject
                 temp0 = []
                 temp0.append(student_rows[i].name)
                 temp0.append(student_rows[i].enrollment)
@@ -424,7 +455,9 @@ def faculty_total_attendance():
                 temp0.append(student_rows[i].sem)
                 student_user_id = student_rows[i].id
                 #student_user_id = user.query.filter_by(email=student.email).first().userid
-                present_count = len(Attendence.query.filter_by(timetable_id=tt_id,student_id=student_user_id).all())
+                for k in range(len(row)):
+                    tt_id = row[k].id
+                    present_count += len(Attendence.query.filter_by(timetable_id=tt_id,student_id=student_user_id).all())
                 temp0.append(present_count)
                 data0.append(temp0)
 
@@ -468,19 +501,24 @@ def faculty_total_attendance():
                 enrs.append(enr[i].enrollment)
 
             # Making Whole Month dates range to fill attendance
-            month = today_date.split('-')[1]
+            '''month = today_date.split('-')[1]
             if (int(month) % 2 != 0) or (month == '08'):
                 datelist = pd.date_range(datetime.today().replace(day=1), periods=31).tolist()
             elif (int(month) % 2 == 0):
-                datelist = pd.date_range(datetime.today().replace(day=1), periods=30).tolist()
+                datelist = pd.date_range(datetime.today().replace(day=1), periods=30).tolist()'''
+
+            # Making list of dates that has been past since term start
+            datelist = pd.date_range(start_term, periods=total_days_since_today).tolist()
             
             # Putting into one list 
             all_date.append('Enrollment/Date')
             all_days.append("Day_Name")
             for j in range(len(datelist)):
-                all_date.append(str(datelist[j].date())) 
                 temp = datelist[j].date()
-                all_days.append(temp.strftime("%A"))
+                for i in row:
+                    if temp.strftime("%A") == i.day:
+                        all_date.append(str(temp)) 
+                        all_days.append(temp.strftime("%A"))
 
             # Making dates as First row
             final_list.append(all_date)
@@ -732,5 +770,70 @@ def update_model():
 def on_camera():
     print(os.getcwd())
     #modules.add_new_persons()
-    LiveFaceRecognition.camera()
+    attendance_marked = LiveFaceRecognition.camera()
+
+    #get already present students
+    slot = int(modules.get_slot())
+
+    print(f"Time Table slot:{slot}")
+    today_date1 = datetime.now()
+    today_day = today_date1.strftime("%A")
+    print(f"today_day:{today_day}")
+
+
+    #get faculty id
+    faculty_email = current_user.get_email()
+    faculty_id = faculty.query.filter_by(email=faculty_email).first().id
+
+    print(f"faculty_id:{faculty_id}")
+
+    #get current-lecture details
+    timetable_details = TimeTable.query.filter_by(slot=slot, faculty_id=faculty_id, day=today_day)
+    if timetable_details.first():
+        print("time table exist")
+        timetable_details = timetable_details.first()
+    else:
+        flash("Opps! time table on current slot is not found","danger")
+        return redirect(url_for("facultyhome"))
+
+    timetable_id = timetable_details.id
+    print(f"timetable_id:{timetable_id}")
+
+    #get today attendance details if any
+    today_data = Attendence.query.filter_by(timetable_id=timetable_id, date=str(datetime.today().date()))
+
+    attendence_taken = {}
+    if today_data:
+        for each in today_data.all():
+            student_id = each.student_id
+            student_name = Student.query.filter_by(id=student_id).first().name
+            print(f"student name={student_name}")
+            attendence_taken[student_name] = 1
+    print(f"Current Attendance:{attendence_taken}")
+
+    attendance_done = []
+    today_date = str(datetime.today().date())
+    for present_student in attendance_marked:
+        if present_student not in attendence_taken:
+            '''
+            record dictionary element :
+            key = student name
+            value = { frame_count, confidence,time}
+            '''
+            record = attendance_marked[present_student]
+            student_name = present_student
+            #get student_id using student_label(name)
+            student = Student.query.filter_by(name=student_name).first()
+            student_id = student.id
+            #check wether student is from same sem & same division where current lecture is helding
+            lecture_batch = [timetable_details.sem, timetable_details.batch]
+            student_batch = [student.sem, student.div]
+            if lecture_batch == student_batch:
+                print(f"record added:{record}")
+                attendance = Attendence(date = today_date, time = record["time"],student_id=student_id,timetable_id=timetable_id)
+                attendance_done.append(present_student)
+                db.session.add(attendance)
+
+    db.session.commit()
+    print(f"Attendance Marked:{attendance_done}")
     return render_template("Admin/index.html")

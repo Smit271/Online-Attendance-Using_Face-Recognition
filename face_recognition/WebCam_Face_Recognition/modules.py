@@ -22,7 +22,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.platypus import TableStyle
 from reportlab.lib import colors
 from openpyxl import Workbook # pip install openpyxl 
-from openpyxl.styles import Font, Color, colors
+from openpyxl.styles import Font, Color
 
 path = "./face_recognition/8_5-Dataset"
 model_path = "./face_recognition/WebCam_Face_Recognition/models/"
@@ -42,7 +42,7 @@ def make_pdf(data, filename):
     # add style
 
     style = TableStyle([
-        ('BACKGROUND', (0,0), (4,0), colors.green),
+        ('BACKGROUND', (0,0), (4,0), colors.grey),
         ('TEXTCOLOR',(0,0),(-1,0),colors.whitesmoke),
 
         ('ALIGN',(0,0),(-1,-1),'CENTER'),
