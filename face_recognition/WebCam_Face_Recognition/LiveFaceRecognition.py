@@ -8,6 +8,11 @@ from numpy import asarray
 import imutils
 import cv2
 import traceback
+import pytz
+
+# get the standard UTC time
+UTC = pytz.utc
+IST = pytz.timezone('Asia/Kolkata')
 
 def get_detections(caffe_model,frame):
 	# image preprocessing like mean substraction to pass it in neural networks
@@ -119,8 +124,8 @@ def camera():
 	# vs = VideoStream(src=0).start()
 
 	# Capture from Phone's Camera
-	url = "http://192.168.0.100:8080/video"
-	vs = cv2.VideoCapture(url)
+	# url = "http://192.168.0.104:8080/video"
+	vs = cv2.VideoCapture(0)
 	if not vs:
 		print("camera can not capture frame!")
 
@@ -190,7 +195,7 @@ def camera():
 
 						attendance_marked[class_name] = {"frame_count":true_count,
 														 "confidence":round(attendance_started[class_name]["confidence"] / true_count, 2),
-														 "time":str(datetime.today().time())}
+														 "time":str(datetime.now(IST).time())}
 				# print(attendance_started)
 				# print(frame_count)
 				data = {"class_name":class_name,"class_probability":class_probability,"detection_conf":confidence}
@@ -216,9 +221,7 @@ def camera():
 	cv2.destroyAllWindows()
 
 	# for pc camera
-	vs.release()
 	# vs.stop()
-	print("camera stopped")
 	print(attendance_started)
 	print(attendance_marked)
 	# & 0xFF

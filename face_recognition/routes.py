@@ -83,6 +83,36 @@ def facultyhome():
     db.create_all()
     return render_template("Admin/index.html")
 
+
+@app.route("/my-lecture", methods = ["POST", "GET"])
+@faculty_login_required
+def my_lecture():
+    # Getting Faculty details
+    temp_email = current_user.get_email()
+    faculty_id = faculty.query.filter_by(email = temp_email).first().id
+
+    working_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    slots = list(range(1,7))
+    data = []
+
+    for j in slots:
+        temp1 = []
+        for i in working_days:
+            temp = {}
+            lecs = TimeTable.query.filter_by(faculty_id = faculty_id, day = i, slot = j).first()
+            if lecs:
+                temp['sem'] = lecs.sem + "-" + lecs.batch
+                temp['sub'] = lecs.subject
+            else :
+                temp['sem'] = '--'
+                temp['sub'] = '--'
+            temp1.append(temp)
+        data.append(temp1)
+    #print(data)
+    return render_template("Admin/my-lecture.html", data = data)
+
+
+
 @app.route("/add-lecture", methods=["POST","GET"])
 @faculty_login_required
 def timetable():

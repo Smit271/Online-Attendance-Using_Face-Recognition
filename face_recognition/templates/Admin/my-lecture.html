@@ -1,0 +1,78 @@
+{% extends "Admin/layout.html" %}
+{% block body %}
+<!-- Start page title -->
+<section class="page-title-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title text-center">
+                    <h1>TimeTable</h1>
+                </div>
+                <div class="breadcrumbs-area  text-center">
+                    <ol class="breadcrumbs">
+                        <li><a href="index.html">Home</a></li>
+                        <li class="active">my-lectures</li>
+                    </ol>
+                </div>
+                <div class="back-home">
+                    <a href="index.html"><i class="fa fa-arrow-left" aria-hidden="true"></i> BACK TO HOME</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End page title -->
+{% if data %}
+<section class="donate-page-area pt-90 pb-80">
+<div class="container">
+    <div class="row">
+        <!-- Start section title -->
+        <div class="col-sm-12">
+            <div class="section-title text-center">
+                <h2>Time<span>Table</span></h2>
+                <img src="img/title-bottom.png" alt="">
+            </div>
+        </div>
+        <!-- End section title -->
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 ml-auto mr-auto">
+            <div class="donate-content">
+                <div class="donate-form-container">
+                    <div class="donation-form quick-donation-section donate-page">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Slots</th>
+                                    <th scope="col">Monday</th>
+                                    <th scope="col">Tuesday</th>
+                                    <th scope="col">Wednesday</th>
+                                    <th scope="col">Thursday</th>
+                                    <th scope="col">Friday</th>
+                                    <th scope="col">Saturday</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for each in data %}
+                                <tr>
+                                    <td scope="row">{{ loop.index }}</td>
+                                    <td>{{ each[0]["sem"] }} <br> {{ each[0]["sub"]}}</td>
+                                    <td>{{ each[1]["sem"] }} <br> {{ each[1]["sub"]}}</td>
+                                    <td>{{ each[2]["sem"] }} <br> {{ each[2]["sub"]}}</td>
+                                    <td>{{ each[3]["sem"] }} <br> {{ each[3]["sub"]}}</td>
+                                    <td>{{ each[4]["sem"] }} <br> {{ each[4]["sub"]}}</td>
+                                    <td>{{ each[5]["sem"] }} <br> {{ each[5]["sub"]}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+{% endif %}
+<!-- End Donate page area -->
+{% endblock body %}
